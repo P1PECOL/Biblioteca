@@ -1,0 +1,12 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      # SQLite por defecto (persistente en el volumen). Para PostgreSQL usa:
+      # DATABASE_URL: postgresql://biblio:biblio@db:5432/biblioteca
+      DATABASE_URL: sqlite:////data/biblioteca.db
+      SECRET_KEY: cambia-esta-clave-en-produccion
+    volumes: ["dbdata:/data"]
+volumes:
+  dbdata:

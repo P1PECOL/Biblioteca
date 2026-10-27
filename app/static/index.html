@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biblioteca Virtual · Colegio Mayor del Cauca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f4f7;--card:#fff;--ink:#131a33;--mute:#5d6580;--line:#e1e4ec;--pri:#24336b;--onpri:#fff;--acc:#6a3fa0;--gold:#d9a21b;--ok:#1f7a5a;--okbg:#dcf1e8;--bad:#b3372c;--badbg:#f8dcd8;--sh:0 1px 2px rgba(19,26,51,.06),0 8px 24px -12px rgba(19,26,51,.18);--d:"Bricolage Grotesque","Trebuchet MS",sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1122;--card:#171c34;--ink:#eceefa;--mute:#9aa2c4;--line:#283050;--pri:#93a5ff;--onpri:#0d1122;--acc:#b79aec;--gold:#f0b93a;--ok:#5cc9a0;--okbg:#153a2f;--bad:#f08a7d;--badbg:#42201c;--sh:0 8px 24px -12px rgba(0,0,0,.6)}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:var(--d);margin:0;line-height:1.15}button,input,select{font:inherit}.hidden{display:none!important}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--pri);color:var(--onpri);border:1px solid transparent;padding:10px 16px;border-radius:10px;font-weight:600;cursor:pointer;transition:transform .12s,box-shadow .12s,opacity .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px -6px var(--pri)}.btn:active{transform:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}.btn.gold{background:var(--gold);color:#241a00}.btn.sm{padding:6px 12px;font-size:.88rem}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.load{position:relative;color:transparent}.btn.load::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--onpri);border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(1turn)}}
+label{display:grid;gap:4px;font-size:.85rem;color:var(--mute);font-weight:500}
+input,select{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+input:focus{border-color:var(--acc)}
+/* login */
+#auth{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.hero{background:var(--pri);color:var(--onpri);padding:48px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.hero h1{font-size:clamp(2.4rem,5vw,4rem);max-width:12ch}.hero p{max-width:34ch;opacity:.85;margin:14px 0 0}
+.shelf{display:flex;align-items:flex-end;gap:5px;height:230px;border-bottom:6px solid rgba(255,255,255,.35)}
+.sp{flex:1;max-width:34px;border-radius:3px 3px 0 0;background:hsl(var(--h) 45% 42%);box-shadow:inset 4px 0 rgba(255,255,255,.18),inset 0 8px rgba(0,0,0,.15);animation:grow .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--n)*45ms);transform-origin:bottom}
+@keyframes grow{from{transform:scaleY(0)}}
+.login{display:grid;place-items:center;padding:32px}.login form{width:min(380px,100%);display:grid;gap:14px}
+.demo{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:5px 12px;font-size:.85rem;cursor:pointer;transition:.15s}
+.chip:hover,.chip.on{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+/* shell */
+#app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+aside{background:var(--card);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh}
+.brand{font-family:var(--d);font-weight:700;font-size:1.15rem;display:flex;gap:10px;align-items:center;padding:0 8px}.brand small{display:block;font:500 .74rem Figtree;color:var(--mute)}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--pri);color:var(--onpri);display:grid;place-items:center}
+nav{display:grid;gap:4px}nav button{display:flex;gap:12px;align-items:center;background:none;border:0;color:var(--mute);padding:11px 12px;border-radius:10px;cursor:pointer;font-weight:500;text-align:left;transition:.15s}
+nav button:hover{background:var(--bg);color:var(--ink)}nav button.on{background:var(--pri);color:var(--onpri)}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:10px;border-top:1px solid var(--line)}
+.av{width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}.me div{min-width:0;flex:1;line-height:1.25}.me b,.me small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.me small{color:var(--mute)}
+.ib{background:none;border:0;color:var(--mute);cursor:pointer;padding:6px;border-radius:8px}.ib:hover{background:var(--bg);color:var(--bad)}
+.top{display:none}main{padding:32px clamp(16px,4vw,44px) 48px;max-width:1120px;width:100%}
+.ph{margin-bottom:22px}.ph h2{font-size:2rem}.ph p{margin:4px 0 0;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px}.g2{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--sh)}.stack{display:grid;gap:12px;align-content:start}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.sp-b{justify-content:space-between}
+/* catalogo */
+.tools{display:grid;gap:12px;margin-bottom:24px}.search{position:relative}.search .i{position:absolute;left:13px;top:12px;color:var(--mute)}.search input{padding-left:42px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}.chips .chip{white-space:nowrap}
+.bk{all:unset;cursor:pointer;display:grid;gap:12px;align-content:start;border-radius:14px}
+.cover{aspect-ratio:3/4;border-radius:4px 12px 12px 4px;padding:18px 16px 16px 26px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;position:relative;overflow:hidden;
+ background:linear-gradient(155deg,hsl(var(--h) 42% 34%),hsl(var(--h) 48% 18%));box-shadow:inset 9px 0 0 rgba(0,0,0,.22),inset 11px 0 0 rgba(255,255,255,.12),0 14px 22px -14px hsl(var(--h) 60% 15%);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.cover::after{content:"";position:absolute;right:-30px;bottom:-30px;width:110px;height:110px;border-radius:50%;border:14px solid rgba(255,255,255,.09)}
+.cover small{font-size:.74rem;opacity:.8}.cover b{font:700 1.18rem/1.15 var(--d)}.cover span{font-size:.8rem;opacity:.85}
+.bk:hover .cover,.bk:focus-visible .cover{transform:translateY(-6px) rotate(-1.2deg)}
+.bk .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.85rem}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-size:.8rem;font-weight:600;background:var(--line);color:var(--mute)}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.no{background:var(--badbg);color:var(--bad)}.pill.gd{background:color-mix(in srgb,var(--gold) 25%,transparent);color:var(--ink)}
+/* prestamos */
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pri);border-radius:99px;transition:width 1s cubic-bezier(.2,.8,.2,1)}.bar.late i{background:var(--bad)}.bar.gold i{background:var(--gold)}
+.loan{display:grid;grid-template-columns:64px 1fr;gap:16px}.loan .cover{padding:6px 6px 6px 12px;font-size:0}.loan .cover *{display:none}
+/* logros */
+.streak{background:var(--pri);color:var(--onpri);border:0;display:grid;gap:10px;justify-items:start}
+.streak .n{font:700 4rem/1 var(--d)}.flame{width:46px;height:46px;stroke:none;fill:var(--gold);animation:fl 1.6s ease-in-out infinite alternate}@keyframes fl{to{transform:scale(1.1) rotate(-5deg)}}
+.dots{display:flex;gap:6px}.dots i{width:26px;height:8px;border-radius:9px;background:rgba(255,255,255,.25)}.dots i.f{background:var(--gold)}
+.streak .btn{background:var(--gold);color:#241a00}
+.medals{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px}
+.medal{text-align:center;padding:16px 8px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:.88rem;font-weight:600}
+.medal .m{width:68px;height:68px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;font-size:2rem;background:radial-gradient(circle at 30% 25%,#fbe6a8,var(--gold));box-shadow:inset 0 -5px 8px rgba(0,0,0,.2),0 0 0 4px color-mix(in srgb,var(--gold) 30%,transparent)}
+.medal.lock{color:var(--mute);font-weight:500}.medal.lock .m{background:var(--line);box-shadow:none;filter:grayscale(1);opacity:.55}.medal.lock .m::after{content:"🔒";font-size:1rem;position:absolute;transform:translate(22px,22px)}
+.medal .m{position:relative}
+.rk{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:8px 0}.rk+.rk{border-top:1px solid var(--line)}.rk .bar{grid-column:2/4;height:6px}
+h3.sec{font-size:1.35rem;margin:30px 0 14px}
+/* tablas, stats, vacío */
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem;white-space:nowrap}th{color:var(--mute);font-weight:500}
+.stat b{display:block;font:700 2.3rem/1 var(--d);color:var(--pri);margin-bottom:4px}.stat span{color:var(--mute);font-size:.9rem}
+.empty{text-align:center;padding:48px 16px;display:grid;gap:12px;justify-items:center;color:var(--mute)}.empty .e{font-size:2.6rem}
+.sk{height:300px;border-radius:14px;background:linear-gradient(100deg,var(--line) 30%,var(--card) 50%,var(--line) 70%);background-size:300% 100%;animation:shim 1.3s infinite}@keyframes shim{to{background-position:-100% 0}}
+/* modal + toast */
+dialog{border:0;border-radius:18px;padding:26px;width:min(460px,92vw);background:var(--card);color:var(--ink);box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}dialog::backdrop{background:rgba(13,17,34,.55);backdrop-filter:blur(3px)}
+dialog[open]{animation:pop .22s cubic-bezier(.2,.9,.3,1.2)}@keyframes pop{from{opacity:0;transform:scale(.94) translateY(10px)}}
+dialog .x{position:absolute;right:12px;top:12px}.md{display:grid;grid-template-columns:130px 1fr;gap:18px;margin-bottom:18px}.md .cover{padding:12px 10px 10px 18px}.md .cover *{font-size:.7rem!important}
+#toasts{position:fixed;bottom:20px;right:20px;display:grid;gap:10px;z-index:50}
+.toast{background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;display:flex;gap:10px;align-items:center;max-width:340px;box-shadow:var(--sh);animation:tin .3s both;border-left:5px solid var(--ok)}.toast.err{border-color:var(--bad)}.toast.out{opacity:0;transform:translateX(20px);transition:.3s}
+@keyframes tin{from{opacity:0;transform:translateX(30px)}}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:60}
+@media(max-width:820px){
+ #auth{grid-template-columns:1fr}.hero{padding:28px;gap:24px}.shelf{height:110px}
+ #app{grid-template-columns:1fr}aside{position:fixed;inset:auto 0 0 0;height:auto;z-index:10;padding:6px;flex-direction:row;border:0;border-top:1px solid var(--line)}
+ aside .brand,.me{display:none}nav{display:flex;width:100%}nav button{flex:1;flex-direction:column;gap:2px;font-size:.68rem;padding:8px 2px;text-align:center;justify-content:center}
+ .top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:9}
+ main{padding-bottom:96px}.ph h2{font-size:1.6rem}.grid{grid-template-columns:repeat(2,1fr);gap:16px}.g2{grid-template-columns:1fr}#toasts{left:16px;right:16px;bottom:84px}.toast{max-width:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2 2.5 2.5 0 0 0 2.5 2.5H19"/></symbol>
+<symbol id="i-loan" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+<symbol id="i-cup" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M8 21h8M5 7h14M5 7l-3 7a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0z"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3"/></symbol>
+<symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2c1 4.5 6 6 6 11.5a6 6 0 0 1-12 0c0-2.4 1.2-3.8 2.5-5 .2 2 1 3 2.3 3.2C11 8.5 10.6 5.5 12 2z"/></symbol>
+</defs></svg>
+<canvas id="cv"></canvas><div id="toasts" aria-live="polite"></div><dialog id="dlg"></dialog>
+
+<section id="auth">
+ <div class="hero"><div><h1>Biblioteca Virtual</h1><p>Pide, renueva y lleva tu racha de lectura. Institución Universitaria Colegio Mayor del Cauca.</p></div><div class="shelf" id="shelf" aria-hidden="true"></div></div>
+ <div class="login"><form id="lf">
+  <div><h2 id="lt" style="font-size:1.8rem">Ingresa a tu cuenta</h2></div>
+  <div id="regFields" class="hidden" style="display:grid;gap:14px"><label>Nombre completo<input id="rn" autocomplete="name"></label><label>Código de estudiante<input id="rc"></label></div>
+  <label>Correo institucional<input id="em" type="email" autocomplete="username"></label>
+  <label>Contraseña<input id="pw" type="password" autocomplete="current-password" placeholder="Mínimo 6 caracteres"></label>
+  <button class="btn" id="go" type="submit">Ingresar</button><button class="btn ghost" id="sw" type="button">Crear cuenta nueva</button>
+  <div><small style="color:var(--mute)">Cuentas de prueba (toca para llenar):</small><div class="demo" style="margin-top:6px">
+   <button type="button" class="chip" data-e="estudiante@biblioteca.edu" data-p="estudiante123">Estudiante</button><button type="button" class="chip" data-e="biblio@biblioteca.edu" data-p="biblio123">Bibliotecaria</button><button type="button" class="chip" data-e="admin@biblioteca.edu" data-p="admin123">Administrador</button></div></div>
+ </form></div>
+</section>
+
+<div id="app" class="hidden">
+ <div class="top"><div class="brand"><span class="logo"><svg class="i"><use href="#i-book"/></svg></span>Biblioteca Virtual</div><button class="ib" onclick="logout()" aria-label="Salir"><svg class="i"><use href="#i-out"/></svg></button></div>
+ <aside><div class="brand"><span class="logo"><svg class="i"><use href="#i-book"/></svg></span><div>Biblioteca<small>Colegio Mayor del Cauca</small></div></div>
+  <nav id="nav"></nav>
+  <div class="me"><span class="av" id="av"></span><div><b id="wn"></b><small id="wr"></small></div><button class="ib" onclick="logout()" aria-label="Cerrar sesión" title="Cerrar sesión"><svg class="i"><use href="#i-out"/></svg></button></div></aside>
+ <main id="view"></main>
+</div>
+<script>
+const $=s=>document.querySelector(s);let TOKEN=sessionStorage.getItem('t'),USER=null,TAB='catalogo',reg=false,BOOKS=[],CAT='Todas',Q='';
+const CONF=['#24336b','#6a3fa0','#d9a21b','#1f7a5a','#b3372c','#3d7fd9'];
+const hue=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))%360,7);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ic=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
+const day=d=>new Date(d+'Z'),fmt=d=>day(d).toLocaleDateString('es-CO',{day:'2-digit',month:'short'});
+const ROLE={student:'Estudiante',librarian:'Bibliotecario',admin:'Administrador'};
+async function api(p,o={}){const r=await fetch('/api'+p,{method:o.m||'GET',headers:{'Content-Type':'application/json',Authorization:'Bearer '+TOKEN},body:o.b?JSON.stringify(o.b):undefined});
+ const j=await r.json().catch(()=>({}));if(!r.ok){const d=j.detail;throw new Error(typeof d==='string'?d:Array.isArray(d)?'Revisa estos campos: '+d.map(x=>x.loc.slice(-1)).join(', '):'Ocurrió un error')}return j}
+function toast(t,k='ok'){const e=document.createElement('div');e.className='toast '+(k==='err'?'err':'');e.innerHTML=ic(k==='err'?'x':'ok')+'<span>'+esc(t)+'</span>';$('#toasts').append(e);setTimeout(()=>{e.classList.add('out');setTimeout(()=>e.remove(),300)},3400)}
+function confetti(){const c=$('#cv'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const P=[...Array(140)].map(()=>({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*18,vy:-Math.random()*15-4,c:CONF[Math.random()*6|0],r:Math.random()*6+3}));let f=0;
+ (function t(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;x.fillStyle=p.c;x.fillRect(p.x,p.y,p.r,p.r*1.6)});if(++f<120)requestAnimationFrame(t);else x.clearRect(0,0,c.width,c.height)})()}
+function badges(b){if(b&&b.length){confetti();toast('¡Nueva medalla! '+b.map(x=>x.emoji+' '+x.name).join(', '))}}
+function modal(h){$('#dlg').innerHTML=`<button class="ib x" onclick="$('#dlg').close()" aria-label="Cerrar">${ic('x')}</button>`+h;$('#dlg').showModal()}
+$('#dlg').onclick=e=>{if(e.target.id==='dlg')e.target.close()};
+async function act(fn,ok,btn){if(btn){btn.disabled=true;btn.classList.add('load')}
+ try{const r=await fn();if($('#dlg').open)$('#dlg').close();if(ok)toast(ok);badges(r&&r.new_badges);render()}catch(e){toast(e.message,'err');if(btn){btn.disabled=false;btn.classList.remove('load')}}}
+/* ---- login */
+$('#shelf').innerHTML=[...Array(16)].map((_,i)=>`<i class="sp" style="--h:${(i*47+200)%360};--n:${i};height:${45+(i*37)%50}%"></i>`).join('');
+document.querySelectorAll('.demo .chip').forEach(b=>b.onclick=()=>{$('#em').value=b.dataset.e;$('#pw').value=b.dataset.p;document.querySelectorAll('.demo .chip').forEach(c=>c.classList.toggle('on',c===b))});
+$('#sw').onclick=()=>{reg=!reg;$('#regFields').classList.toggle('hidden',!reg);$('#go').textContent=reg?'Crear mi cuenta':'Ingresar';$('#sw').textContent=reg?'Ya tengo cuenta':'Crear cuenta nueva';$('#lt').textContent=reg?'Crea tu cuenta':'Ingresa a tu cuenta'};
+$('#lf').onsubmit=async e=>{e.preventDefault();const btn=$('#go');btn.disabled=true;btn.classList.add('load');
+ try{const b={email:$('#em').value,password:$('#pw').value};if(reg){b.name=$('#rn').value;b.code=$('#rc').value}
+ const r=await fetch('/api/auth/'+(reg?'register':'login'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});const j=await r.json();
+ if(!r.ok)throw new Error(typeof j.detail==='string'?j.detail:'Revisa los datos ingresados');TOKEN=j.token;sessionStorage.setItem('t',TOKEN);await boot()}catch(e){toast(e.message,'err')}btn.disabled=false;btn.classList.remove('load')};
+window.logout=()=>{sessionStorage.removeItem('t');location.reload()};
+async function boot(){try{USER=await api('/me')}catch{return}$('#auth').classList.add('hidden');$('#app').classList.remove('hidden');
+ $('#av').textContent=USER.name.trim()[0].toUpperCase();$('#wn').textContent=USER.name;$('#wr').textContent=ROLE[USER.role];
+ const t=[['catalogo','book','Catálogo'],['prestamos','loan','Préstamos'],['logros','cup','Logros'],['sanciones','scale','Sanciones']];if(USER.role!=='student')t.push(['panel','grid','Panel']);
+ $('#nav').innerHTML=t.map(([k,i,l])=>`<button data-k="${k}">${ic(i)}<span>${l}</span></button>`).join('');
+ $('#nav').onclick=e=>{const b=e.target.closest('button');if(b){TAB=b.dataset.k;render()}};render()}
+async function render(){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===TAB));
+ $('#view').innerHTML=`<div class="grid">${'<div class="sk"></div>'.repeat(4)}</div>`;
+ try{$('#view').innerHTML=await views[TAB]();if(TAB==='catalogo')drawBooks();scrollTo(0,0)}catch(e){$('#view').innerHTML=`<div class="empty card"><div class="e">⚠️</div><b>No se pudo cargar</b><span>${esc(e.message)}</span><button class="btn" onclick="render()">Reintentar</button></div>`}}
+const head=(t,s)=>`<div class="ph"><h2>${t}</h2><p>${s}</p></div>`;
+const empty=(e,t,s,b='')=>`<div class="empty card"><div class="e">${e}</div><b style="color:var(--ink)">${t}</b><span>${s}</span>${b}</div>`;
+const goTab=k=>{TAB=k;render()};
+/* ---- acciones */
+window.borrow=(id,b)=>act(()=>api('/loans?book_id='+id,{m:'POST'}),'Préstamo registrado. Tienes 7 días para devolverlo',b);
+window.ret=(id,f,b)=>act(async()=>{const r=await api(`/loans/${id}/return?finished=${f}`,{m:'POST'});if(r.penalty)toast(`Sanción: ${r.penalty.days} día(s) de retraso · $${r.penalty.amount}`,'err');return r},f?'Devuelto y marcado como terminado':'Libro devuelto',b);
+window.renew=(id,b)=>act(()=>api(`/loans/${id}/renew`,{m:'POST'}),'Préstamo renovado 7 días más',b);
+window.checkin=b=>act(()=>api('/reading/checkin',{m:'POST'}),'Lectura de hoy registrada',b);
+window.join=(id,b)=>act(()=>api(`/challenges/${id}/join`,{m:'POST'}),'Te uniste al desafío',b);
+window.lift=(id,b)=>act(()=>api(`/penalties/${id}/lift`,{m:'POST'}),'Sanción levantada',b);
+window.addBook=b=>act(()=>api('/books',{m:'POST',b:{title:$('#bt').value,author:$('#ba').value,isbn:$('#bi').value,category:$('#bc').value,total:+$('#bn').value}}),'Libro agregado al catálogo',b);
+window.addCh=b=>act(()=>api('/challenges',{m:'POST',b:{name:$('#cn').value,goal:+$('#cg').value,start:$('#cs').value,end:$('#ce').value}}),'Desafío creado',b);
+const cover=b=>`<div class="cover" style="--h:${hue(b.category)}"><small>${esc(b.category)}</small><b>${esc(b.title)}</b><span>${esc(b.author)}</span></div>`;
+window.detail=id=>{const b=BOOKS.find(x=>x.id===id);modal(`<div class="md">${cover(b)}<div class="stack"><h3 style="font-size:1.4rem">${esc(b.title)}</h3><span>${esc(b.author)}</span><span class="pill ${b.available?'ok':'no'}">${b.available?b.available+' de '+b.total+' disponibles':'Sin ejemplares ahora'}</span><small style="color:var(--mute)">ISBN ${esc(b.isbn)}</small></div></div>
+ <p style="color:var(--mute);font-size:.9rem;margin:0 0 16px">Préstamo por 7 días, renovable 2 veces. Máximo 3 libros a la vez.</p>
+ <div class="row" style="justify-content:flex-end"><button class="btn ghost" onclick="$('#dlg').close()">Cancelar</button><button class="btn" ${b.available?'':'disabled'} onclick="borrow(${b.id},this)">Pedir este libro</button></div>`)};
+window.retModal=id=>modal(`<h3 style="font-size:1.4rem;margin-bottom:6px">¿Devolver este libro?</h3><p style="color:var(--mute)">Si lo terminaste, suma a tus medallas y a los desafíos.</p><div class="stack"><button class="btn" onclick="ret(${id},true,this)">Lo terminé, devolver</button><button class="btn ghost" onclick="ret(${id},false,this)">Solo devolver</button></div>`);
+window.setCat=c=>{CAT=c;drawBooks()};window.setQ=v=>{Q=v.toLowerCase();drawBooks(true)};
+function drawBooks(keep){const cats=['Todas',...new Set(BOOKS.map(b=>b.category))];
+ if(!keep)$('#chips').innerHTML=cats.map(c=>`<button class="chip ${c===CAT?'on':''}" onclick="setCat('${esc(c).replace(/'/g,"\\'")}')">${esc(c)}</button>`).join('');
+ else document.querySelectorAll('#chips .chip').forEach(c=>c.classList.toggle('on',c.textContent===CAT));
+ const l=BOOKS.filter(b=>(CAT==='Todas'||b.category===CAT)&&(b.title+b.author+b.category).toLowerCase().includes(Q));
+ $('#list').innerHTML=l.length?l.map(b=>`<button class="bk" onclick="detail(${b.id})" aria-label="${esc(b.title)}">${cover(b)}<div class="meta"><span class="pill ${b.available?'ok':'no'}">${b.available?b.available+' disponible'+(b.available>1?'s':''):'Prestado'}</span></div></button>`).join(''):empty('🔎','Sin resultados','Prueba con otro título, autor o categoría.');
+ if(!l.length)$('#list').style.display='block';else $('#list').style.display=''}
+const views={
+ async catalogo(){BOOKS=await api('/books');return head('Catálogo',`${BOOKS.length} títulos para pedir prestados`)+`<div class="tools"><div class="search">${ic('search')}<input placeholder="Buscar por título, autor o categoría" value="${esc(Q)}" oninput="setQ(this.value)" aria-label="Buscar libros"></div><div class="chips" id="chips"></div></div><div class="grid" id="list"></div>`},
+ async prestamos(){const l=await api('/loans');const act_=l.filter(x=>!x.returned_at),old=l.filter(x=>x.returned_at);
+  const card=x=>{const left=Math.ceil((day(x.due_at)-Date.now())/864e5),span=7*(x.renewals+1),pct=Math.max(4,Math.min(100,(1-left/span)*100));
+   return`<div class="card loan"><div class="cover" style="--h:${hue(x.book)}"></div><div class="stack"><h3 style="font-size:1.1rem">${esc(x.book)}</h3>
+   ${x.returned_at?`<span class="pill ok">Devuelto${x.finished?' · terminado':''}</span><small style="color:var(--mute)">Prestado el ${fmt(x.loaned_at)}</small>`:`
+   <span class="pill ${left<0?'no':left<=1?'gd':'ok'}">${left<0?'Vencido hace '+(-left)+' día(s)':left===0?'Vence hoy':'Vence en '+left+' día(s)'}</span><div class="bar ${left<0?'late':''}"><i style="width:${left<0?100:pct}%"></i></div>
+   <div class="row"><button class="btn sm" onclick="retModal(${x.id})">Devolver</button><button class="btn ghost sm" ${x.renewals>=2||left<0?'disabled':''} onclick="renew(${x.id},this)">Renovar (${x.renewals}/2)</button></div>`}</div></div>`};
+  return head('Mis préstamos',`${act_.length} de 3 libros en tu poder`)+(l.length?`<div class="grid g2">${act_.map(card).join('')}</div>${old.length?`<h3 class="sec">Historial</h3><div class="grid g2">${old.map(card).join('')}</div>`:''}`:empty('📚','Aún no tienes préstamos','Elige tu primer libro en el catálogo.',`<button class="btn" onclick="goTab('catalogo')">Explorar catálogo</button>`))},
+ async logros(){const [g,ch,lb]=await Promise.all([api('/gamification/me'),api('/challenges'),api('/leaderboard')]);const have=new Set(g.badges.map(b=>b.code));
+  return head('Logros','Tu racha, tus medallas y los retos de toda la comunidad')+`<div class="grid g2"><div class="card streak"><svg class="i flame" viewBox="0 0 24 24"><use href="#i-flame"/></svg><div class="n">${g.streak}</div><div>${g.streak===1?'día':'días'} de racha · récord ${g.streak_max}</div>
+   <div class="dots">${[...Array(7)].map((_,i)=>`<i class="${i<g.streak%7||(g.streak&&g.streak%7===0)?'f':''}"></i>`).join('')}</div>
+   <button class="btn" ${g.checked_today?'disabled':''} onclick="checkin(this)">${g.checked_today?'Hoy ya leíste':'Registrar lectura de hoy'}</button></div>
+   <div class="card stack"><div class="stat"><b>${g.books_finished}</b><span>libros terminados</span></div><div class="bar gold"><i style="width:${g.next_badge_at?Math.min(100,g.books_finished/g.next_badge_at*100):100}%"></i></div><small style="color:var(--mute)">${g.next_badge_at?`Te faltan ${g.next_badge_at-g.books_finished} para la próxima medalla`:'Tienes todas las medallas de lectura'}</small></div></div>
+  <h3 class="sec">Medallas</h3><div class="medals">${[...g.catalog,...g.badges.filter(b=>b.code.startsWith('CHALLENGE'))].map(m=>`<div class="medal ${have.has(m.code)?'':'lock'}"><div class="m">${m.emoji}</div>${esc(m.name)}</div>`).join('')}</div>
+  <h3 class="sec">Desafíos comunitarios</h3><div class="grid g2">${ch.map(c=>`<div class="card stack"><h3 style="font-size:1.15rem">${esc(c.name)}</h3><div class="bar gold"><i style="width:${Math.min(100,c.progress/c.goal*100)}%"></i></div><small style="color:var(--mute)">${c.progress} de ${c.goal} libros · ${c.participants} participante(s) · hasta el ${c.end}</small>${c.completed?'<span class="pill ok">Meta lograda</span>':c.joined?'<span class="pill">Ya participas</span>':`<button class="btn gold sm" style="justify-self:start" onclick="join(${c.id},this)">Unirme al reto</button>`}</div>`).join('')||empty('🤝','Sin desafíos activos','Cuando haya uno nuevo, aparecerá aquí.')}</div>
+  <h3 class="sec">Ranking de lectores</h3><div class="card">${lb.map((r,i)=>`<div class="rk"><b style="font-size:1.3rem">${['🥇','🥈','🥉'][i]||i+1}</b><span>${esc(r.name)}</span><b>${r.books} libro(s)</b><div class="bar"><i style="width:${r.books/lb[0].books*100}%"></i></div></div>`).join('')||'<div class="empty">Aún no hay lectores en el ranking. Termina un libro para aparecer.</div>'}</div>`},
+ async sanciones(){const p=await api('/penalties');return head('Sanciones','Multa de $500 por cada día de retraso')+(p.length?`<div class="card tw"><table><tr><th>Usuario</th><th>Días</th><th>Valor</th><th>Estado</th><th></th></tr>${p.map(x=>`<tr><td>${esc(x.user)}</td><td>${x.days}</td><td>$${x.amount}</td><td><span class="pill ${x.status==='pendiente'?'no':'ok'}">${x.status}</span></td><td>${USER.role!=='student'&&x.status==='pendiente'?`<button class="btn sm" onclick="lift(${x.id},this)">Levantar</button>`:''}</td></tr>`).join('')}</table></div>`:empty('✅','Estás al día','No tienes sanciones. Sigue devolviendo a tiempo.'))},
+ async panel(){const [r,l]=await Promise.all([api('/reports/summary'),api('/loans?all=true')]);
+  return head('Panel de gestión','Resumen de la biblioteca y herramientas del personal')+`<div class="grid g2" style="margin-bottom:16px">${[['loans_total','Préstamos totales'],['loans_active','Préstamos activos'],['penalties_pending','Sanciones pendientes'],['badges_awarded','Medallas otorgadas']].map(([k,t])=>`<div class="card stat"><b>${r[k]}</b><span>${t}</span></div>`).join('')}</div>
+  <div class="grid g2"><div class="card stack"><h3>Libros más pedidos</h3>${r.top_books.map(b=>`<div><small>${esc(b.title)} · ${b.loans}</small><div class="bar"><i style="width:${b.loans/r.top_books[0].loans*100}%"></i></div></div>`).join('')||'<small>Aún sin datos</small>'}</div>
+  <div class="card stack"><h3>Agregar libro</h3><label>Título<input id="bt"></label><label>Autor<input id="ba"></label><div class="row"><label style="flex:1">ISBN<input id="bi"></label><label style="flex:1">Categoría<input id="bc"></label></div><label>Ejemplares<input id="bn" type="number" min="1" value="1"></label><button class="btn" onclick="addBook(this)">Guardar libro</button></div>
+  <div class="card stack"><h3>Nuevo desafío</h3><label>Nombre<input id="cn"></label><label>Meta (libros)<input id="cg" type="number" min="1" value="10"></label><div class="row"><label style="flex:1">Inicio<input id="cs" type="date"></label><label style="flex:1">Fin<input id="ce" type="date"></label></div><button class="btn gold" onclick="addCh(this)">Crear desafío</button></div></div>
+  <h3 class="sec">Todos los préstamos</h3><div class="card tw"><table><tr><th>Libro</th><th>Usuario</th><th>Vence</th><th>Estado</th><th></th></tr>${l.map(x=>`<tr><td>${esc(x.book)}</td><td>${esc(x.user)}</td><td>${fmt(x.due_at)}</td><td><span class="pill ${x.returned_at?'ok':x.days_late?'no':''}">${x.returned_at?'Devuelto':x.days_late?x.days_late+' d. de retraso':'Vigente'}</span></td><td>${x.returned_at?'':`<button class="btn sm" onclick="ret(${x.id},true,this)">Recibir</button>`}</td></tr>`).join('')}</table></div>`}};
+if(TOKEN)boot();
+</script></body></html>
